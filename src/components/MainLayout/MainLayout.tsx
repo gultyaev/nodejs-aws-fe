@@ -1,13 +1,10 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Container from "@material-ui/core/Container";
 import Header from "components/MainLayout/components/Header";
-import {colors, createMuiTheme} from "@material-ui/core";
-import {PaletteOptions} from "@material-ui/core/styles/createPalette";
-import {useSelector} from "react-redux";
-import {selectDarkMode} from "../../store/themeSlice";
+import {colors} from "@material-ui/core";
 
 function Copyright() {
   return (

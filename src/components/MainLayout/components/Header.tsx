@@ -9,8 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Cart from "components/MainLayout/components/Cart";
 import {Link} from 'react-router-dom';
-import {Icon} from "@material-ui/core";
-import {Brightness1, Brightness4, Brightness5, Brightness6} from "@material-ui/icons";
+import {Brightness5, Brightness6} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {selectDarkMode, toggleDarkMode} from "../../../store/themeSlice";
 
