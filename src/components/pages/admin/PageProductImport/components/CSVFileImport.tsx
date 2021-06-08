@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import axios from 'axios';
@@ -16,38 +16,50 @@ type CSVFileImportProps = {
 
 export default function CSVFileImport({url, title}: CSVFileImportProps) {
   const classes = useStyles();
-  const [file, setFile] = useState<any>();
+  const [file, setFile] = useState<File | null>();
 
-  const onFileChange = (e: any) => {
+  const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e);
-    let files = e.target.files || e.dataTransfer.files
-    if (!files.length) return
-    setFile(files.item(0));
+    const files = e.target.files
+
+    if (!files?.length) return
+
+    const file = files.item(0);
+
+    if (!['text/csv', 'application/vnd.ms-excel'].includes(file!.type)) return
+
+    setFile(file);
   };
 
   const removeFile = () => {
-    setFile('');
+    setFile(null);
   };
 
   const uploadFile = async (e: any) => {
-      // Get the presigned URL
-      const response = await axios({
-        method: 'GET',
-        url,
-        params: {
-          name: encodeURIComponent(file.name)
-        }
-      })
-      console.log('File to upload: ', file.name)
-      console.log('Uploading to: ', response.data)
-      const result = await fetch(response.data, {
-        method: 'PUT',
-        body: file
-      })
-      console.log('Result: ', result)
-      setFile('');
+    if (!file) {
+      return;
     }
-  ;
+
+    // Get the presigned URL
+    const response = await axios({
+      method: 'GET',
+      url,
+      params: {
+        name: encodeURIComponent(file.name)
+      }
+    })
+    console.log('File to upload: ', file.name)
+    console.log('Uploading to: ', response.data)
+    const result = await fetch(response.data, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': 'text/csv'
+      }
+    })
+    console.log('Result: ', result)
+    setFile(null);
+  };
 
   return (
     <div className={classes.content}>
@@ -55,7 +67,7 @@ export default function CSVFileImport({url, title}: CSVFileImportProps) {
         {title}
       </Typography>
       {!file ? (
-          <input type="file" onChange={onFileChange}/>
+        <input type="file" accept="text/csv" onChange={onFileChange}/>
       ) : (
         <div>
           <button onClick={removeFile}>Remove file</button>
