@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-import API_PATHS from "constants/apiPaths";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -15,18 +13,18 @@ import {formatAsPrice} from "utils/utils";
 export default function ProductsTable() {
   const [products, setProducts] = useState<any>([]);
 
-  useEffect(() => {
-    axios.get(`${API_PATHS.bff}/product`)
-      .then(res => setProducts(res.data));
-  }, []);
+  // useEffect(() => {
+  //   axios.get(`${API_PATHS.bff}/product`)
+  //     .then(res => setProducts(res.data));
+  // }, []);
 
   const onDelete = (id: string) => {
-    axios.delete(`${API_PATHS.bff}/product/${id}`)
-      .then(() => {
-        axios.get(`${API_PATHS.bff}/product`)
-          .then(res => setProducts(res.data));
-        }
-      );
+    // axios.delete(`${API_PATHS.bff}/product/${id}`)
+    //   .then(() => {
+    //     axios.get(`${API_PATHS.bff}/product`)
+    //       .then(res => setProducts(res.data));
+    //     }
+    //   );
   };
 
 
